@@ -1,10 +1,10 @@
 // property取得
-var prop = PropertiesService.getScriptProperties().getProperties();
-var LINE_ACCESS_TOKEN = prop.LINE_ACCESS_TOKEN;
-var LINE_ENDPOINT = prop.LINE_ENDPOINT;
+const prop = PropertiesService.getScriptProperties().getProperties();
+const LINE_ACCESS_TOKEN = prop.LINE_ACCESS_TOKEN;
+const LINE_ENDPOINT = prop.LINE_ENDPOINT;
 
 // まさみ画像
-var masamiImages = {
+const images = {
   'sad': 'https://blog-imgs-24.fc2.com/n/o/h/nohtani45/e_20.jpg',
   'sad2': 'https://i.ytimg.com/vi/TFAI-YJbmjo/maxresdefault.jpg',
   'sad3': 'https://livedoor.blogimg.jp/rbkyn844/imgs/5/b/5b161c3e.jpg',
@@ -17,52 +17,43 @@ var masamiImages = {
   'sleep': 'https://pbs.twimg.com/media/ExzKyezU8AUm47H?format=jpg&name=large',
 }
 
-var masamiMaster = [
-  //1
+const messages = [
   {
     "text": "アカン",
-    "image": masamiImages.sad,
+    "image": images.sad,
     "score": 15
   },
-  //2
   {
     "text": "まあまあやばいね",
-    "image": masamiImages.sad2,
+    "image": images.sad2,
     "score": 25
   },
-  //3
   {
     "text": "ちょっと疲れてるね",
-    "image": masamiImages.sad3,
+    "image": images.sad3,
     "score": 45
   },
-  //4
   {
     "text": "ふつうやね",
-    "image": masamiImages.normal,
+    "image": images.normal,
     "score": 60
   },
-  //5
   {
     "text": "いい感じやね",
-    "image": masamiImages.happy,
+    "image": images.happy,
     "score": 75
   },
-  //6
   {
     "text": "めっちゃいい感じやね",
-    "image": masamiImages.happy2,
+    "image": images.happy2,
     "score": 90
   },
-  //7
   {
     "text": "最高に楽しんでるね",
-    "image": masamiImages.happy3,
+    "image": images.happy3,
     "score": 100
   },
 ]
-
-
 
 // webhookを受ける
 function doPost(e) {
@@ -89,7 +80,7 @@ function doPost(e) {
       var isHappy = requestPostbackData.isHappy
 
       var score = isSleep + isGoodFriends + isHappy;
-      var data = masamiMaster[score - 3];
+      var data = messages[score - 3];
 
       var text = "あなたの健康状態は" + data.score + "点！"
 
@@ -103,7 +94,7 @@ function doPost(e) {
         "ans3": JSON.stringify(Object.assign(requestPostbackData, { "isHappy": 1 })),
       };
       text = '仕事充実してる？'
-      responseMessage = getButtonTemplate(postbackData, text, masamiImages.ishappy);
+      responseMessage = getButtonTemplate(postbackData, text, images.ishappy);
 
       // 2問目
     } else {
@@ -113,7 +104,7 @@ function doPost(e) {
         "ans3": JSON.stringify(Object.assign(requestPostbackData, { "isGoodFriends": 1 })),
       };
       text = '会社の同僚とはいい感じ？'
-      responseMessage = getButtonTemplate(postbackData, text, masamiImages.work);
+      responseMessage = getButtonTemplate(postbackData, text, images.work);
     }
   } else {
     // 1問目
@@ -123,7 +114,7 @@ function doPost(e) {
       "ans3": '{"isSleep":1}',
     };
     text = 'よく眠れている？'
-    responseMessage = getButtonTemplate(postbackData, text, masamiImages.sleep);
+    responseMessage = getButtonTemplate(postbackData, text, images.sleep);
   }
 
   // LINEのエンドポイントに投げる
