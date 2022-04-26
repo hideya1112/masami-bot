@@ -57,10 +57,10 @@ const messages = [
 
 // webhookを受ける
 function doPost(e) {
-  var json = JSON.parse(e.postData.contents);
+  const json = JSON.parse(e.postData.contents);
 
   // トークン取得
-  var reply_token = json.events[0].replyToken;
+  const reply_token = json.events[0].replyToken;
   if (typeof reply_token === 'undefined') {
     return;
   }
@@ -70,17 +70,17 @@ function doPost(e) {
   var text = ''
 
   if (json.events[0].type == 'postback') {
-    var requestPostbackData = JSON.parse(json.events[0].postback.data);
+    const requestPostbackData = JSON.parse(json.events[0].postback.data);
 
     // 結果
     if ("isHappy" in requestPostbackData) {
 
-      var isSleep = requestPostbackData.isSleep
-      var isGoodFriends = requestPostbackData.isGoodFriends
-      var isHappy = requestPostbackData.isHappy
+      const isSleep = requestPostbackData.isSleep
+      const isGoodFriends = requestPostbackData.isGoodFriends
+      const isHappy = requestPostbackData.isHappy
 
-      var score = isSleep + isGoodFriends + isHappy;
-      var data = messages[score - 3];
+      const score = isSleep + isGoodFriends + isHappy;
+      const data = messages[score - 3];
 
       var text = "あなたの健康状態は" + data.score + "点！"
 
