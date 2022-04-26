@@ -73,13 +73,13 @@ function doPost(e) {
     const requestPostbackData = JSON.parse(json.events[0].postback.data);
 
     // 結果
-    if ("isHappy" in requestPostbackData) {
+    if ("isHappyScore" in requestPostbackData) {
 
-      const isSleep = requestPostbackData.isSleep
-      const isGoodFriends = requestPostbackData.isGoodFriends
-      const isHappy = requestPostbackData.isHappy
+      const isSleepScore = requestPostbackData.isSleepScore
+      const isGoodFriendsScore = requestPostbackData.isGoodFriendsScore
+      const isHappyScore = requestPostbackData.isHappyScore
 
-      const score = isSleep + isGoodFriends + isHappy;
+      const score = isSleepScore + isGoodFriendsScore + isHappyScore;
       const data = messages[score - 3];
 
       var text = "あなたの健康状態は" + data.score + "点！"
@@ -87,21 +87,21 @@ function doPost(e) {
       responseMessage = getMessageTemplate(text, data.text, data.image);
 
       // 3問目
-    } else if ("isGoodFriends" in requestPostbackData) {
+    } else if ("isGoodFriendsScore" in requestPostbackData) {
       var postbackData = {
-        "ans1": JSON.stringify(Object.assign(requestPostbackData, { "isHappy": 3 })),
-        "ans2": JSON.stringify(Object.assign(requestPostbackData, { "isHappy": 2 })),
-        "ans3": JSON.stringify(Object.assign(requestPostbackData, { "isHappy": 1 })),
+        "ans1": JSON.stringify(Object.assign(requestPostbackData, { "isHappyScore": 3 })),
+        "ans2": JSON.stringify(Object.assign(requestPostbackData, { "isHappyScore": 2 })),
+        "ans3": JSON.stringify(Object.assign(requestPostbackData, { "isHappyScore": 1 })),
       };
       text = '仕事充実してる？'
-      responseMessage = getButtonTemplate(postbackData, text, images.ishappy);
+      responseMessage = getButtonTemplate(postbackData, text, images.isHappyScore);
 
       // 2問目
     } else {
       var postbackData = {
-        "ans1": JSON.stringify(Object.assign(requestPostbackData, { "isGoodFriends": 3 })),
-        "ans2": JSON.stringify(Object.assign(requestPostbackData, { "isGoodFriends": 2 })),
-        "ans3": JSON.stringify(Object.assign(requestPostbackData, { "isGoodFriends": 1 })),
+        "ans1": JSON.stringify(Object.assign(requestPostbackData, { "isGoodFriendsScore": 3 })),
+        "ans2": JSON.stringify(Object.assign(requestPostbackData, { "isGoodFriendsScore": 2 })),
+        "ans3": JSON.stringify(Object.assign(requestPostbackData, { "isGoodFriendsScore": 1 })),
       };
       text = '会社の同僚とはいい感じ？'
       responseMessage = getButtonTemplate(postbackData, text, images.work);
@@ -109,9 +109,9 @@ function doPost(e) {
   } else {
     // 1問目
     var postbackData = {
-      "ans1": '{"isSleep":3}',
-      "ans2": '{"isSleep":2}',
-      "ans3": '{"isSleep":1}',
+      "ans1": '{"isSleepScore":3}',
+      "ans2": '{"isSleepScore":2}',
+      "ans3": '{"isSleepScore":1}',
     };
     text = 'よく眠れている？'
     responseMessage = getButtonTemplate(postbackData, text, images.sleep);
